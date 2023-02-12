@@ -13,7 +13,8 @@ PROJECT_DIR = SCRIPT_PATH.split("src")[0]
 
 def main():
     """program skeleton"""
-    data_file = os.path.join(PROJECT_DIR,"data", "raw", "8_odors_new_names.csv")
+    data_file = os.path.join(PROJECT_DIR,"data", "raw", "single_odor.csv")
+    
     data = pd.read_csv(data_file)
 
     # removing unnecessary columns
