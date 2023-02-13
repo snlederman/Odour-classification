@@ -4,6 +4,7 @@ random forest model
 
 # packages
 import os
+import sys
 # import numpy as np
 import pandas as pd
 from sklearn.ensemble import RandomForestClassifier
@@ -12,23 +13,8 @@ from sklearn.metrics import classification_report
 SCRIPT_PATH = os.path.realpath(__file__)
 PROJECT_DIR = SCRIPT_PATH.split("src")[0]
 
-def summeries_multiclass_report(report):
-    """
-    takes the classification_report dict output
-    and summeries it for metrics comparison
-    """
-    accuracy = report["accuracy"]
-    report_df = pd.DataFrame(report)
-    report_summary = report_df.transpose()[["precision","recall","f1-score"]].mean(axis=0)
-
-    report_print = f"""Report:
-    Accuracy: {accuracy:.0%}
-    Precision: {report_summary["precision"]:.0%}
-    Sensitivity: {report_summary["recall"]:.0%}
-    F1 score: {report_summary["f1-score"]:.0%}
-    """
-    
-    return report_print
+sys.path.append(os.path.join(PROJECT_DIR, "src", "utils"))
+from summeries_classification import summeries_multiclass_report
 
 
 def main():
@@ -48,6 +34,7 @@ def main():
 
     report = classification_report(y_test, y_pred, output_dict=True)
     report_summary = summeries_multiclass_report(report)
+    
     return report_summary
 
 
