@@ -15,7 +15,7 @@ PROJECT_DIR = SCRIPT_PATH.split("src")[0]
 
 sys.path.append(os.path.join(PROJECT_DIR, "src", "utils"))
 from summeries_classification import summeries_multiclass_report
-
+from log_classification import log_metrics
 
 def main():
     """program skeleton"""
@@ -33,6 +33,7 @@ def main():
     y_pred = model.predict(X_test)
 
     report = classification_report(y_test, y_pred, output_dict=True)
+    log_metrics(report, model, PROJECT_DIR)
     report_summary = summeries_multiclass_report(report)
     
     return report_summary
