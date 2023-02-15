@@ -14,9 +14,10 @@ PROJECT_DIR = SCRIPT_PATH.split("src")[0]
 
 sys.path.append(os.path.join(PROJECT_DIR, "src", "utils"))
 from summeries_classification import summeries_multiclass_report
+from log_classification import log_metrics
 
 
-class BaselineModel:
+class RandomSampler:
     """random sampler from train labels"""
     def __init__(self):
         self.labels = None
@@ -42,12 +43,14 @@ def main():
     y_test = pd.read_csv(os.path.join(PROJECT_DIR,"data", "splitted", "test", "labels.csv")).set_index("ID")
     X_test = pd.read_csv(os.path.join(PROJECT_DIR,"data", "splitted", "test", "features.csv")).set_index("ID")
 
-    baseline_model = BaselineModel()
-    baseline_model.fit(X_train, y_train["label"])
-    y_pred = baseline_model.predict(X_test)
+    model = RandomSampler()
+    model.fit(X_train, y_train["label"])
+    y_pred = model.predict(X_test)
 
     report = classification_report(y_test, y_pred, output_dict=True)
+    log_metrics(report, model, PROJECT_DIR)
     report_summary = summeries_multiclass_report(report)
+    
     return report_summary
 
 
