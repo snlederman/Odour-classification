@@ -4,7 +4,7 @@ preprocessing the raw data and storing it as such
 
 # packages
 import os
-import argparse
+import sys
 # import numpy as np
 import pandas as pd
 from sklearn.preprocessing import StandardScaler
@@ -12,14 +12,8 @@ from sklearn.preprocessing import StandardScaler
 SCRIPT_PATH = os.path.realpath(__file__)
 PROJECT_DIR = SCRIPT_PATH.split("src")[0]
 
-# argparse function
-def get_args(argv=None):
-    """
-    Takes arguments from the user when running as a command line script
-    """
-    parser = argparse.ArgumentParser(description="Preproccess the raw data and saves it")
-    parser.add_argument("-s","--scale", action="store_true", help="standard scaling")
-    return vars(parser.parse_args(argv))
+sys.path.append(os.path.join(PROJECT_DIR, "src", "utils"))
+from cmd_parse import get_args
 
 def main():
     """program skeleton"""
