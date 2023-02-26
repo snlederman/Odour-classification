@@ -36,12 +36,14 @@ def main():
     
     if args["scale"]:
         # set index for scaling
-        features.set_index("ID")
+        features.set_index("ID", inplace=True)
         
         # scaling features
         scaler = StandardScaler()
         features_scaled = pd.DataFrame(scaler.fit_transform(features), columns=features.columns, index=features.index)
 
+        features_scaled.reset_index(inplace=True)
+        
         # saving scaled features
         features_scaled.to_csv(os.path.join(PROJECT_DIR,"data", "cleaned", "scaled", "features.csv"), index=False)
     else:
