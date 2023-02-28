@@ -13,13 +13,18 @@ PROJECT_DIR = SCRIPT_PATH.split("src")[0]
 
 def main():
     """program skeleton"""
-    features = pd.read_csv(os.path.join(PROJECT_DIR, "data", "cleaned", "features.csv"))
-    labels = pd.read_csv(os.path.join(PROJECT_DIR, "data", "cleaned", "labels.csv"))
+    # features = pd.read_csv(os.path.join(PROJECT_DIR, "data", "cleaned", "features.csv"))
+    # labels = pd.read_csv(os.path.join(PROJECT_DIR, "data", "cleaned", "labels.csv"))
     
-    data = pd.merge(labels, features)
+    data = pd.read_csv(os.path.join(PROJECT_DIR, "data", "raw", "single_odor.csv"))
+    data.drop(columns=["date","channel"], inplace=True)
+    
+    # data = pd.merge(labels, features)
     data.set_index("ID", inplace=True)
     
-    feature_names = features.drop(columns=["ID"]).columns
+    feature_names = data.drop(columns=["label"]).columns
+    
+    # feature_names = features.drop(columns=["ID"]).columns
     num_features = len(feature_names)
     data.rename(columns={ftr:int(ftr.replace('t','')) for ftr in feature_names}, inplace=True)
     
@@ -32,6 +37,6 @@ def main():
                 plt.title(f"antennea id: {antennea}    odor: {label}")
                 plt.savefig(os.path.join(PROJECT_DIR, "docs", "figures", f"antennea_{antennea}_{label}.png"))
 
-    
+
 if __name__ == "__main__":
     main()
