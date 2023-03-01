@@ -1,5 +1,5 @@
 """
-cleans the raw data and storing it as such
+cleans the raw data and stores it as such
 """
 
 # packages
@@ -22,7 +22,6 @@ def main():
     # splitting to features and labels
     labels = data[["ID","label"]]
     features = data.drop(columns=["label"])
-    features = features[sorted(features.columns)]
 
     # saving labels
     labels.to_csv(os.path.join(PROJECT_DIR,"data", "cleaned", "labels.csv"), index=False)

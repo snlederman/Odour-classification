@@ -11,4 +11,5 @@ def get_args(argv=None):
     """
     parser = argparse.ArgumentParser(description="define whether to work on scaled data")
     parser.add_argument("-s","--scale", action="store_true", help="standard scaling")
+    parser.add_argument("-n","--number", type=int, help="repeats the action n times")
     return vars(parser.parse_args(argv))

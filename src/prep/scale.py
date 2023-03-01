@@ -1,5 +1,5 @@
 """
-scale the cleaned data and storing it as such
+scales the cleaned data and stores it as such
 """
 
 # packages
