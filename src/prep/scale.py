@@ -21,12 +21,11 @@ def main():
     
     # loading clean data
     if args["augment"]:
-        features_file = os.path.join(PROJECT_DIR,"data", "augmented", "features.csv")
+        features_file = os.path.join(PROJECT_DIR,"data", "splitted", "train", "augmented", "features.csv")
     else:
         features_file = os.path.join(PROJECT_DIR,"data", "cleaned", "features.csv")
         
     # loading raw data
-    features_file = os.path.join(PROJECT_DIR,"data", "cleaned", "features.csv")
     features = pd.read_csv(features_file)
     
     # set index for scaling
@@ -40,13 +39,12 @@ def main():
     
     # saving scaled features
     if args["augment"]:
-        features_scaled_file = os.path.join(PROJECT_DIR,"data", "augmented", "scaled", "features.csv")
+        features_scaled_file = os.path.join(PROJECT_DIR,"data", "splitted", "train", "augmented", "scaled", "features.csv")
     else:
         features_scaled_file = os.path.join(PROJECT_DIR,"data", "cleaned", "scaled", "features.csv")
     
     features_scaled.to_csv(features_scaled_file, index=False)
     
-        
 
 
 if __name__ == "__main__":

@@ -36,11 +36,11 @@ def main():
     args = get_args()
     
     # loading cleaned data
-    features_file = os.path.join(PROJECT_DIR,"data", "cleaned", "features.csv")
+    features_file = os.path.join(PROJECT_DIR,"data", "splitted", "train", "features.csv")
         
     features = pd.read_csv(features_file)
     
-    labels_file = os.path.join(PROJECT_DIR,"data", "cleaned", "labels.csv")
+    labels_file = os.path.join(PROJECT_DIR,"data", "splitted", "train", "labels.csv")
     labels = pd.read_csv(labels_file)
     
     # set id index
@@ -59,12 +59,12 @@ def main():
             labels = pd.concat([labels, sample_label], axis=0, ignore_index=True)
             features = pd.concat([features, sample_features], axis=0)
 
-    labels.to_csv(os.path.join(PROJECT_DIR,"data", "augmented", "labels.csv"), index=False)
+    labels.to_csv(os.path.join(PROJECT_DIR,"data", "splitted", "train", "augmented", "labels.csv"), index=False)
     
     features.reset_index(inplace=True)
     features.rename(columns={"index":"ID"}, inplace=True)
     
-    features.to_csv(os.path.join(PROJECT_DIR,"data", "augmented", "features.csv"), index=False)
+    features.to_csv(os.path.join(PROJECT_DIR,"data", "splitted", "train", "augmented", "features.csv"), index=False)
         
 
 if __name__ == "__main__":
