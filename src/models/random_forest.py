@@ -23,14 +23,14 @@ def main():
     """program skeleton"""
     args = get_args()
     
-    X_train, y_train, X_test, y_test = load_data(PROJECT_DIR, args["scale"])
+    X_train, y_train, X_test, y_test = load_data(PROJECT_DIR, args["scale"], args["augment"])
     
     model = RandomForestClassifier()
     model.fit(X_train, y_train["label"])
     y_pred = model.predict(X_test)
 
     report = classification_report(y_test, y_pred, output_dict=True)
-    log_metrics(report, model, PROJECT_DIR, args["scale"])
+    log_metrics(report, model, PROJECT_DIR, args["scale"], args["augment"])
     report_summary = summeries_multiclass_report(report)
     
     return report_summary
