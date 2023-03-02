@@ -13,10 +13,13 @@ SCRIPT_PATH = os.path.realpath(__file__)
 PROJECT_DIR = SCRIPT_PATH.split("src")[0]
 
 sys.path.append(os.path.join(PROJECT_DIR, "src", "utils"))
+from cmd_parse import get_args
+from load_data import load_data
 from summeries_classification import summeries_multiclass_report
+from log_classification import log_metrics
 
 
-class BaselineModel:
+class RandomSampler:
     """random sampler from train labels"""
     def __init__(self):
         self.labels = None
@@ -33,21 +36,18 @@ class BaselineModel:
 
 def main():
     """program skeleton"""
+    args = get_args()
+    
+    X_train, y_train, X_test, y_test = load_data(PROJECT_DIR, args["scale"])
 
-    # loading training data
-    y_train = pd.read_csv(os.path.join(PROJECT_DIR,"data", "splitted", "train", "labels.csv")).set_index("ID")
-    X_train = pd.read_csv(os.path.join(PROJECT_DIR,"data", "splitted", "train", "features.csv")).set_index("ID")
-
-    # loading testing data
-    y_test = pd.read_csv(os.path.join(PROJECT_DIR,"data", "splitted", "test", "labels.csv")).set_index("ID")
-    X_test = pd.read_csv(os.path.join(PROJECT_DIR,"data", "splitted", "test", "features.csv")).set_index("ID")
-
-    baseline_model = BaselineModel()
-    baseline_model.fit(X_train, y_train["label"])
-    y_pred = baseline_model.predict(X_test)
+    model = RandomSampler()
+    model.fit(X_train, y_train["label"])
+    y_pred = model.predict(X_test)
 
     report = classification_report(y_test, y_pred, output_dict=True)
+    log_metrics(report, model, PROJECT_DIR, args["scale"])
     report_summary = summeries_multiclass_report(report)
+    
     return report_summary
 
 
