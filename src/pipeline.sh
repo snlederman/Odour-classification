@@ -14,13 +14,11 @@ python src/prep/scale.py
 echo split
 python src/prep/split.py
 
-# augment cleaned data
-# echo augment
-# python -W ignore src/prep/augment.py --number 100
+# augment train data
+echo augment
+python -W ignore src/prep/augment.py --number 100
 
-# augment scaled data
-# echo scale augment
-# python -W ignore src/prep/scale.py --augment
+# scale augmented data
+echo scale augment
+python -W ignore src/prep/scale.py --augment
 
-# echo split augment
-# python src/prep/split.py --augment

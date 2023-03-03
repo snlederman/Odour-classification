@@ -9,7 +9,12 @@ import pandas as pd
 from sklearn.preprocessing import StandardScaler
 
 SCRIPT_PATH = os.path.realpath(__file__)
-PROJECT_DIR = SCRIPT_PATH.split("src")[0]
+
+def get_project_dir(script_path):
+    project_dir = script_path[:-script_path[::-1].find("crs")-3]
+    return project_dir
+
+PROJECT_DIR = get_project_dir(SCRIPT_PATH)
 
 sys.path.append(os.path.join(PROJECT_DIR, "src", "utils"))
 from cmd_parse import get_args
