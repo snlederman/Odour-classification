@@ -1,5 +1,5 @@
 """
-random forest model
+Multi-layer Perceptron classifier.
 """
 
 # packages
@@ -7,8 +7,8 @@ import os
 import sys
 # import numpy as np
 import pandas as pd
-from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import classification_report
+from sklearn.neural_network import MLPClassifier
 
 SCRIPT_PATH = os.path.realpath(__file__)
 PROJECT_DIR = SCRIPT_PATH.split("src")[0]
@@ -24,8 +24,7 @@ def main():
     args = get_args()
     
     X_train, y_train, X_test, y_test = load_data(PROJECT_DIR, args["scale"], args["augment"])
-    
-    model = RandomForestClassifier()
+    model = MLPClassifier(hidden_layer_sizes=(100,), activation='relu', solver='lbfgs')
     model.fit(X_train, y_train["label"])
     y_pred = model.predict(X_test)
 

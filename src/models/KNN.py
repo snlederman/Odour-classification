@@ -1,5 +1,5 @@
 """
-random forest model
+clustering KNN model
 """
 
 # packages
@@ -7,7 +7,7 @@ import os
 import sys
 # import numpy as np
 import pandas as pd
-from sklearn.ensemble import RandomForestClassifier
+from sklearn.neighbors import KNeighborsClassifier
 from sklearn.metrics import classification_report
 
 SCRIPT_PATH = os.path.realpath(__file__)
@@ -24,8 +24,8 @@ def main():
     args = get_args()
     
     X_train, y_train, X_test, y_test = load_data(PROJECT_DIR, args["scale"], args["augment"])
-    
-    model = RandomForestClassifier()
+    nb_odors = 8
+    model = KNeighborsClassifier(n_neighbors= nb_odors)
     model.fit(X_train, y_train["label"])
     y_pred = model.predict(X_test)
 

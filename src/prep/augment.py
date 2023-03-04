@@ -36,10 +36,7 @@ def main():
     args = get_args()
     
     # loading cleaned data
-    if args["scale"]:
-        features_file = os.path.join(PROJECT_DIR,"data", "cleaned", "scaled", "features.csv")
-    else:
-        features_file = os.path.join(PROJECT_DIR,"data", "cleaned", "features.csv")
+    features_file = os.path.join(PROJECT_DIR,"data", "cleaned", "features.csv")
         
     features = pd.read_csv(features_file)
     
@@ -67,10 +64,7 @@ def main():
     features.reset_index(inplace=True)
     features.rename(columns={"index":"ID"}, inplace=True)
     
-    if args["scale"]:
-        features.to_csv(os.path.join(PROJECT_DIR,"data", "augmented", "scaled", "features.csv"), index=False)
-    else:
-        features.to_csv(os.path.join(PROJECT_DIR,"data", "augmented", "features.csv"), index=False)
+    features.to_csv(os.path.join(PROJECT_DIR,"data", "augmented", "features.csv"), index=False)
         
 
 if __name__ == "__main__":

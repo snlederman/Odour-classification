@@ -6,19 +6,20 @@ logging model experiments metrics
 import os
 import pandas as pd
 
-def log_metrics(report, model, PROJECT_DIR, scaled):
+def log_metrics(report, model, PROJECT_DIR, scaled, augmented):
     """
     takes the classification_report dict output
     and saves the metrics to the experiment logger
     """
     
-    log_file = os.path.join(PROJECT_DIR, "data", "metrics_log.csv")
+    log_file = os.path.join(PROJECT_DIR, "data", "stats", "metrics_log.csv")
     metrics_log = pd.read_csv(log_file)
     
     report_df = pd.DataFrame(report)
     report_df["model"] = model.__class__.__name__
     report_df["log_id"] = max(metrics_log["log_id"]) + 1
     report_df["scaled"] = scaled
+    report_df["augmented"] = augmented
     report_df.reset_index(inplace=True)
     report_df.rename(columns={"index" : "metric"}, inplace=True)
     
