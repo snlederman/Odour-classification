@@ -17,11 +17,11 @@ PROJECT_DIR = get_project_dir(SCRIPT_PATH)
 
 def main():
     """program skeleton"""
-    features = pd.read_csv(os.path.join(PROJECT_DIR, "data", "cleaned", "features.csv"))
-    labels = pd.read_csv(os.path.join(PROJECT_DIR, "data", "cleaned", "labels.csv"))
+    features = pd.read_csv(os.path.join(PROJECT_DIR, "data", "splitted", "train", "features.csv"))
+    labels = pd.read_csv(os.path.join(PROJECT_DIR, "data", "splitted", "train", "labels.csv"))
     
-    features_augmented = pd.read_csv(os.path.join(PROJECT_DIR, "data", "augmented", "features.csv"))
-    labels_augmented = pd.read_csv(os.path.join(PROJECT_DIR, "data", "augmented", "labels.csv"))
+    features_augmented = pd.read_csv(os.path.join(PROJECT_DIR, "data", "splitted", "train", "augmented", "features.csv"))
+    labels_augmented = pd.read_csv(os.path.join(PROJECT_DIR, "data", "splitted", "train", "augmented", "labels.csv"))
     
     for label in labels["label"].unique():
         label_indices = labels["label"] == label
