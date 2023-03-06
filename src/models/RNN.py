@@ -9,7 +9,7 @@ import sys
 import pandas as pd
 from sklearn.preprocessing import OneHotEncoder
 from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import Dense
+from tensorflow.keras import layers
 from tensorflow.keras.callbacks import EarlyStopping
 from sklearn.metrics import classification_report
 
@@ -49,34 +49,35 @@ def main():
     in_shape = X_train.shape[1]
     print(f"input shape: {in_shape}")
     hidden1 = int(in_shape / 2)
-    print(f"first hidden: {hidden1}")
-    print(f"second hidden: {hidden1}")
+    print(f"LSTM hidden: {hidden1}")
     hidden2 = int(hidden1 / 2)
-    print(f"third hidden: {hidden2}")
-    print(f"forth hidden: {hidden2}")
+    print(f"dense hidden: {hidden2}")
     out_shape = len(unique_labels)
     print(f"output shape: {out_shape}")
     
     model = Sequential([
-        Dense(hidden1, activation="relu", input_shape=(in_shape,)),
-        # Dense(hidden1, activation="relu"),
-        # Dense(hidden2, activation="relu"),
-        Dense(hidden2, activation="relu"),
-        Dense(out_shape, activation="softmax")
+        layers.LSTM(hidden1, return_sequences=True, input_shape=(in_shape,1)),
+        layers.LSTM(hidden1, return_sequences=True),
+        layers.LSTM(hidden1, return_sequences=True),
+        layers.LSTM(hidden1),
+        layers.Dense(hidden2, activation="relu"),
+        layers.Dense(hidden2, activation="relu"),
+        layers.Dense(hidden2, activation="relu"),
+        layers.Dense(out_shape, activation="softmax")
     ])
     
     model.compile(optimizer="adam", loss="categorical_crossentropy", metrics=["accuracy"])
 
     callback = EarlyStopping(monitor='val_loss', patience=5, restore_best_weights=True)
     
-    history = model.fit(X_train.values, y_train_encoded, validation_data=(X_test.values, y_test_encoded), batch_size=10, epochs=50, callbacks=[callback])
+    history = model.fit(X_train.values, y_train_encoded, validation_data=(X_test.values, y_test_encoded), batch_size=10, epochs=100, callbacks=[callback])
 
     plot_history(history, "loss", os.path.join(PROJECT_DIR, "docs", "figures", "training_history.png"))
     
     y_pred_encoded = model.predict(X_test)
     y_pred = get_prediction(y_pred_encoded)
     y_true = get_prediction(y_test_encoded)
-    
+
     report = classification_report(y_true, y_pred, output_dict=True)
     log_metrics(report, model, PROJECT_DIR, args["scale"], args["augment"])
     report_summary = summeries_multiclass_report(report)
