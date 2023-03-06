@@ -28,8 +28,8 @@ from summeries_classification import summeries_multiclass_report
 from log_classification import log_metrics
 from training_history import plot_history
 
-def get_prediction(y):
-    return y.argmax(axis=1)
+def get_prediction(y, labels):
+    return labels[y.argmax(axis=1)]
     
 def main():
     """program skeleton"""
@@ -75,8 +75,8 @@ def main():
     plot_history(history, "loss", os.path.join(PROJECT_DIR, "docs", "figures", "training_history.png"))
     
     y_pred_encoded = model.predict(X_test)
-    y_pred = get_prediction(y_pred_encoded)
-    y_true = get_prediction(y_test_encoded)
+    y_pred = get_prediction(y_pred_encoded, enc.categories_[0])
+    y_true = get_prediction(y_test_encoded, enc.categories_[0])
 
     report = classification_report(y_true, y_pred, output_dict=True)
     log_metrics(report, model, PROJECT_DIR, args["scale"], args["augment"])
