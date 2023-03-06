@@ -8,15 +8,20 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 SCRIPT_PATH = os.path.realpath(__file__)
-PROJECT_DIR = SCRIPT_PATH.split("src")[0]
+
+def get_project_dir(script_path):
+    project_dir = script_path[:-script_path[::-1].find("crs")-3]
+    return project_dir
+
+PROJECT_DIR = get_project_dir(SCRIPT_PATH)
 
 def main():
     """program skeleton"""
-    features = pd.read_csv(os.path.join(PROJECT_DIR, "data", "cleaned", "features.csv"))
-    labels = pd.read_csv(os.path.join(PROJECT_DIR, "data", "cleaned", "labels.csv"))
+    features = pd.read_csv(os.path.join(PROJECT_DIR, "data", "splitted", "train", "features.csv"))
+    labels = pd.read_csv(os.path.join(PROJECT_DIR, "data", "splitted", "train", "labels.csv"))
     
-    features_augmented = pd.read_csv(os.path.join(PROJECT_DIR, "data", "augmented", "features.csv"))
-    labels_augmented = pd.read_csv(os.path.join(PROJECT_DIR, "data", "augmented", "labels.csv"))
+    features_augmented = pd.read_csv(os.path.join(PROJECT_DIR, "data", "splitted", "train", "augmented", "features.csv"))
+    labels_augmented = pd.read_csv(os.path.join(PROJECT_DIR, "data", "splitted", "train", "augmented", "labels.csv"))
     
     for label in labels["label"].unique():
         label_indices = labels["label"] == label

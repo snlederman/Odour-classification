@@ -9,7 +9,12 @@ import pandas as pd
 from sklearn.preprocessing import StandardScaler
 
 SCRIPT_PATH = os.path.realpath(__file__)
-PROJECT_DIR = SCRIPT_PATH.split("src")[0]
+
+def get_project_dir(script_path):
+    project_dir = script_path[:-script_path[::-1].find("crs")-3]
+    return project_dir
+
+PROJECT_DIR = get_project_dir(SCRIPT_PATH)
 
 sys.path.append(os.path.join(PROJECT_DIR, "src", "utils"))
 from cmd_parse import get_args
@@ -21,12 +26,11 @@ def main():
     
     # loading clean data
     if args["augment"]:
-        features_file = os.path.join(PROJECT_DIR,"data", "augmented", "features.csv")
+        features_file = os.path.join(PROJECT_DIR,"data", "splitted", "train", "augmented", "features.csv")
     else:
         features_file = os.path.join(PROJECT_DIR,"data", "cleaned", "features.csv")
         
     # loading raw data
-    features_file = os.path.join(PROJECT_DIR,"data", "cleaned", "features.csv")
     features = pd.read_csv(features_file)
     
     # set index for scaling
@@ -40,13 +44,12 @@ def main():
     
     # saving scaled features
     if args["augment"]:
-        features_scaled_file = os.path.join(PROJECT_DIR,"data", "augmented", "scaled", "features.csv")
+        features_scaled_file = os.path.join(PROJECT_DIR,"data", "splitted", "train", "augmented", "scaled", "features.csv")
     else:
         features_scaled_file = os.path.join(PROJECT_DIR,"data", "cleaned", "scaled", "features.csv")
     
     features_scaled.to_csv(features_scaled_file, index=False)
     
-        
 
 
 if __name__ == "__main__":

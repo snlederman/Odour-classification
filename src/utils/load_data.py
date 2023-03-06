@@ -10,16 +10,16 @@ def load_data(PROJECT_DIR, scaled, augmented):
     if augmented:
         if scaled:
             labels_train_path = os.path.join(PROJECT_DIR, "data", "splitted", "train", "augmented", "labels.csv")
-            labels_test_path = os.path.join(PROJECT_DIR, "data", "splitted", "test", "augmented", "labels.csv")
+            labels_test_path = os.path.join(PROJECT_DIR, "data", "splitted", "test", "labels.csv")
             
             features_train_path = os.path.join(PROJECT_DIR, "data", "splitted", "train", "augmented", "scaled", "features.csv")
-            features_test_path = os.path.join(PROJECT_DIR, "data", "splitted", "test", "augmented", "scaled", "features.csv")
+            features_test_path = os.path.join(PROJECT_DIR, "data", "splitted", "test", "scaled", "features.csv")
         else:
             labels_train_path = os.path.join(PROJECT_DIR, "data", "splitted", "train", "augmented", "labels.csv")
-            labels_test_path = os.path.join(PROJECT_DIR, "data", "splitted", "test", "augmented", "labels.csv")
+            labels_test_path = os.path.join(PROJECT_DIR, "data", "splitted", "test", "labels.csv")
             
             features_train_path = os.path.join(PROJECT_DIR, "data", "splitted", "train", "augmented", "features.csv")
-            features_test_path = os.path.join(PROJECT_DIR, "data", "splitted", "test", "augmented", "features.csv")
+            features_test_path = os.path.join(PROJECT_DIR, "data", "splitted", "test", "features.csv")
     else:
         if scaled:
             labels_train_path = os.path.join(PROJECT_DIR, "data", "splitted", "train", "labels.csv")
