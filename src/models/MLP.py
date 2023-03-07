@@ -9,6 +9,7 @@ import sys
 import pandas as pd
 from sklearn.metrics import classification_report
 from sklearn.neural_network import MLPClassifier
+from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
 
 SCRIPT_PATH = os.path.realpath(__file__)
 PROJECT_DIR = SCRIPT_PATH.split("src")[0]
@@ -24,6 +25,10 @@ def main():
     args = get_args()
     
     X_train, y_train, X_test, y_test = load_data(PROJECT_DIR, args["scale"], args["augment"])
+    
+    
+    
+    
     model = MLPClassifier(hidden_layer_sizes=(100,), activation='relu', solver='lbfgs')
     model.fit(X_train, y_train["label"])
     y_pred = model.predict(X_test)
