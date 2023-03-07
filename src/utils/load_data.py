@@ -5,34 +5,17 @@ loads the data needed for model training and testing
 import os
 import pandas as pd
 
-def load_data(PROJECT_DIR, scaled, augmented):
+from cmd_parse import args_to_path
+
+def load_data(project_dir, args):
     
-    if augmented:
-        if scaled:
-            labels_train_path = os.path.join(PROJECT_DIR, "data", "splitted", "train", "augmented", "labels.csv")
-            labels_test_path = os.path.join(PROJECT_DIR, "data", "splitted", "test", "labels.csv")
-            
-            features_train_path = os.path.join(PROJECT_DIR, "data", "splitted", "train", "augmented", "scaled", "features.csv")
-            features_test_path = os.path.join(PROJECT_DIR, "data", "splitted", "test", "scaled", "features.csv")
-        else:
-            labels_train_path = os.path.join(PROJECT_DIR, "data", "splitted", "train", "augmented", "labels.csv")
-            labels_test_path = os.path.join(PROJECT_DIR, "data", "splitted", "test", "labels.csv")
-            
-            features_train_path = os.path.join(PROJECT_DIR, "data", "splitted", "train", "augmented", "features.csv")
-            features_test_path = os.path.join(PROJECT_DIR, "data", "splitted", "test", "features.csv")
-    else:
-        if scaled:
-            labels_train_path = os.path.join(PROJECT_DIR, "data", "splitted", "train", "labels.csv")
-            labels_test_path = os.path.join(PROJECT_DIR, "data", "splitted", "test", "labels.csv")
-            
-            features_train_path = os.path.join(PROJECT_DIR, "data", "splitted", "train", "scaled", "features.csv")
-            features_test_path = os.path.join(PROJECT_DIR, "data", "splitted", "test", "scaled", "features.csv")
-        else:
-            labels_train_path = os.path.join(PROJECT_DIR, "data", "splitted", "train", "labels.csv")
-            labels_test_path = os.path.join(PROJECT_DIR, "data", "splitted", "test", "labels.csv")
-            
-            features_train_path = os.path.join(PROJECT_DIR, "data", "splitted", "train", "features.csv")
-            features_test_path = os.path.join(PROJECT_DIR, "data", "splitted", "test", "features.csv")
+    data_path = args_to_path(args)
+    
+    labels_train_path = os.path.join(project_dir, "data", "cleaned", "splitted", "train", "labels.csv")
+    labels_test_path = os.path.join(project_dir, "data", "cleaned", "splitted", "test", "labels.csv")
+    
+    features_train_path = os.path.join(project_dir, "data", "cleaned", "splitted", "train", data_path, "features.csv")
+    features_test_path = os.path.join(project_dir, "data", "cleaned", "splitted", "test", data_path, "features.csv")
     
     # loading labels
     y_train = pd.read_csv(labels_train_path).set_index("ID")

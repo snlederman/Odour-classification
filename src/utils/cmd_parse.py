@@ -18,6 +18,7 @@ def get_args(argv=None):
     return vars(parser.parse_args(argv))
 
 def args_to_path(args):
+    """takes args dict and return a string path"""
     path_dict = dict()
     for key,value in args.items():
         if value:
