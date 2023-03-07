@@ -26,8 +26,8 @@ def main():
     data_path = args_to_path(args)
     
     # loading data
-    labels_path = os.path.join(PROJECT_DIR, "data", data_path, "labels.csv")
-    features_path = os.path.join(PROJECT_DIR, "data", data_path, "features.csv")
+    labels_path = os.path.join(PROJECT_DIR, "data", "cleaned", data_path, "labels.csv")
+    features_path = os.path.join(PROJECT_DIR, "data", "cleaned", data_path, "features.csv")
     
     labels = pd.read_csv(labels_path)
     features = pd.read_csv(features_path)
@@ -45,11 +45,11 @@ def main():
     X_test = features.loc[np.isin(features["ID"],test_IDs),:]
 
     # saving data
-    labels_train_path = os.path.join(PROJECT_DIR, "data", "splitted", "train", data_path, "labels.csv")
-    features_train_path = os.path.join(PROJECT_DIR, "data", "splitted", "train", data_path, "features.csv")
+    labels_train_path = os.path.join(PROJECT_DIR, "data", "cleaned", "splitted", "train", data_path, "labels.csv")
+    features_train_path = os.path.join(PROJECT_DIR, "data", "cleaned", "splitted", "train", data_path, "features.csv")
     
-    labels_test_path = os.path.join(PROJECT_DIR, "data", "splitted", "test", data_path, "labels.csv")
-    features_test_path = os.path.join(PROJECT_DIR, "data", "splitted", "test", data_path, "features.csv")
+    labels_test_path = os.path.join(PROJECT_DIR, "data", "cleaned", "splitted", "test", data_path, "labels.csv")
+    features_test_path = os.path.join(PROJECT_DIR, "data", "cleaned", "splitted", "test", data_path, "features.csv")
 
     y_train.to_csv(labels_train_path, index=False)
     X_train.to_csv(features_train_path, index=False)

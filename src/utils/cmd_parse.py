@@ -14,6 +14,7 @@ def get_args(argv=None):
     parser.add_argument("-s","--scaled", action="store_true", help="standard scaling")
     parser.add_argument("-a","--augmented", action="store_true", help="augmented data")
     parser.add_argument("-c","--clipped", action="store_true", help="clipped data")
+    parser.add_argument("-d","--derived", action="store_true", help="derived data")
     parser.add_argument("-n","--number", type=int, help="repeats the action n times")
     return vars(parser.parse_args(argv))
 
@@ -25,5 +26,5 @@ def args_to_path(args):
             path_dict[key] = key
         else:
             path_dict[key] = ""
-    return os.path.join(path_dict["augmented"], path_dict["scaled"], path_dict["clipped"])
+    return os.path.join(path_dict["augmented"], path_dict["scaled"], path_dict["clipped"],  path_dict["derived"])
     
