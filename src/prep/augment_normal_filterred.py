@@ -27,15 +27,25 @@ def augment(df, num):
     """
     # calculating covariance matrix and mean for distribution esstimation
     avg = np.mean(df, axis=0)
+    std = np.std(df, axis=0)
     cov = np.cov(df, rowvar=0)
     
     multivar_norm = multivariate_normal(mean=avg, cov=cov, allow_singular=True)
-    samples = multivar_norm.rvs(size=num)
+    
+    # generating num number of samples
+    samples = []
+    while len(samples) < num:
+        sample = multivar_norm.rvs()
+        upper_bound = avg + std
+        lower_bound = avg - std
+        if all([all(sample > lower_bound), all(lower_bound < upper_bound)]):
+            samples.append(sample)
     
     samples_df = pd.DataFrame(samples, columns=df.columns)
     
     return samples_df
     
+
 
 def main():
     """program skeleton"""

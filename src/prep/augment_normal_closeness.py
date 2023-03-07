@@ -7,6 +7,7 @@ import os
 import sys
 import numpy as np
 import pandas as pd
+from scipy.stats import norm
 from scipy.stats import multivariate_normal
 
 SCRIPT_PATH = os.path.realpath(__file__)
@@ -20,6 +21,23 @@ PROJECT_DIR = get_project_dir(SCRIPT_PATH)
 sys.path.append(os.path.join(PROJECT_DIR, "src", "utils"))
 from cmd_parse import get_args
 
+def get_weight_matrix(n, mean=1, std=0.5):
+    """
+    Generates a square matrix where the diagonal values are 1 and the off-diagonal values decay with normal distribution
+    from 1 to 0, with mean and standard deviation specified by the user.
+    """
+    # Create an n x n identity matrix
+    matrix = np.eye(n)
+    
+    # Compute the off-diagonal values using a normal decay function
+    for i in range(n):
+        for j in range(i+1, n):
+            decay = 1 - (j - i) / (n - 1)
+            matrix[i,j] = decay
+            matrix[j,i] = decay
+            
+    matrix_norm = norm.pdf(matrix, loc=mean, scale=std)
+    return matrix_norm
 
 def augment(df, num):
     """
@@ -29,7 +47,10 @@ def augment(df, num):
     avg = np.mean(df, axis=0)
     cov = np.cov(df, rowvar=0)
     
-    multivar_norm = multivariate_normal(mean=avg, cov=cov, allow_singular=True)
+    weight_matrix = get_weight_matrix(len(avg))
+    cov_modify = np.multiply(cov, weight_matrix)
+    
+    multivar_norm = multivariate_normal(mean=avg, cov=cov_modify, allow_singular=True)
     samples = multivar_norm.rvs(size=num)
     
     samples_df = pd.DataFrame(samples, columns=df.columns)

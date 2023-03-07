@@ -20,6 +20,22 @@ PROJECT_DIR = get_project_dir(SCRIPT_PATH)
 sys.path.append(os.path.join(PROJECT_DIR, "src", "utils"))
 from cmd_parse import get_args
 
+def get_weight_matrix(n):
+    """
+    Generates a square matrix where the diagonal values are 1 and the off-diagonal values decay linearly
+    from 1 to 0.
+    """
+    # Create an n x n identity matrix
+    matrix = np.eye(n)
+    
+    # Compute the off-diagonal values using a linear decay function
+    for i in range(n):
+        for j in range(i+1, n):
+            decay = 1 - (j - i) / (n - 1)
+            matrix[i,j] = decay
+            matrix[j,i] = decay
+    
+    return matrix
 
 def augment(df, num):
     """
@@ -29,7 +45,10 @@ def augment(df, num):
     avg = np.mean(df, axis=0)
     cov = np.cov(df, rowvar=0)
     
-    multivar_norm = multivariate_normal(mean=avg, cov=cov, allow_singular=True)
+    weight_matrix = get_weight_matrix(len(avg))
+    cov_modify = np.multiply(cov, weight_matrix)
+    
+    multivar_norm = multivariate_normal(mean=avg, cov=cov_modify, allow_singular=True)
     samples = multivar_norm.rvs(size=num)
     
     samples_df = pd.DataFrame(samples, columns=df.columns)
