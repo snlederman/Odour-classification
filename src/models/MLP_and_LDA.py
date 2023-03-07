@@ -7,7 +7,8 @@ import os
 import sys
 # import numpy as np
 import pandas as pd
-from sklearn.metrics import classification_report
+import numpy as np
+from sklearn.metrics import classification_report, confusion_matrix
 from sklearn.neural_network import MLPClassifier
 from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
 
@@ -27,11 +28,20 @@ def main():
     X_train, y_train, X_test, y_test = load_data(PROJECT_DIR, args["scale"], args["augment"])
     
     
+    clf = LinearDiscriminantAnalysis(solver='eigen', shrinkage='auto')
+    clf.fit(X_train, np.ravel(y_train))
+    X_train_lda = clf.transform(X_train)
+    X_test_lda = clf.transform(X_test)
+    
     
     
     model = MLPClassifier(hidden_layer_sizes=(100,), activation='relu', solver='lbfgs')
-    model.fit(X_train, y_train["label"])
-    y_pred = model.predict(X_test)
+    model.fit(X_train_lda, y_train["label"])
+    y_pred = model.predict(X_test_lda)
+    print("confusion matrix :")
+    print(confusion_matrix(y_test,y_pred))
+    
+    
 
     report = classification_report(y_test, y_pred, output_dict=True)
     log_metrics(report, model, PROJECT_DIR, args["scale"], args["augment"])
