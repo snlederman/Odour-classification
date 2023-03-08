@@ -1,5 +1,5 @@
 """
-random forest model
+ada boost model
 """
 
 # packages
