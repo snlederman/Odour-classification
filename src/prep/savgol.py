@@ -22,13 +22,14 @@ def main():
 
     # loading data
     features_path = os.path.join(PROJECT_DIR, "data", "cleaned", "features.csv")
-    features = pd.read_csv(features_path)
+    features = pd.read_csv(features_path).set_index("ID")
     
     first_derivitive = pd.DataFrame(savgol_filter(features, deriv=1, window_length=3, polyorder=1, axis=0), columns=features.columns, index=features.index)
     second_derivitive = pd.DataFrame(savgol_filter(features, deriv=2, window_length=3, polyorder=2, axis=0), columns=features.columns, index=features.index)
     
     features = pd.concat([features, first_derivitive, second_derivitive], axis=1)
     
+    features.reset_index(inplace=True)
     # saving data
     features.to_csv(os.path.join(PROJECT_DIR,"data", "cleaned", "derived", "features.csv"), index=False)
 

@@ -13,7 +13,12 @@ from sklearn.neural_network import MLPClassifier
 from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
 
 SCRIPT_PATH = os.path.realpath(__file__)
-PROJECT_DIR = SCRIPT_PATH.split("src")[0]
+
+def get_project_dir(script_path):
+    project_dir = script_path[:-script_path[::-1].find("crs")-3]
+    return project_dir
+
+PROJECT_DIR = get_project_dir(SCRIPT_PATH)
 
 sys.path.append(os.path.join(PROJECT_DIR, "src", "utils"))
 from cmd_parse import get_args
@@ -25,14 +30,13 @@ def main():
     """program skeleton"""
     args = get_args()
     
-    X_train, y_train, X_test, y_test = load_data(PROJECT_DIR, args["scale"], args["augment"])
+    X_train, y_train, X_test, y_test = load_data(PROJECT_DIR, args)
     
     
     clf = LinearDiscriminantAnalysis(solver='eigen', shrinkage='auto')
     clf.fit(X_train, np.ravel(y_train))
     X_train_lda = clf.transform(X_train)
     X_test_lda = clf.transform(X_test)
-    
     
     
     model = MLPClassifier(hidden_layer_sizes=(100,), activation='relu', solver='lbfgs')
@@ -42,9 +46,8 @@ def main():
     print(confusion_matrix(y_test,y_pred))
     
     
-
     report = classification_report(y_test, y_pred, output_dict=True)
-    log_metrics(report, model, PROJECT_DIR, args["scale"], args["augment"])
+    # log_metrics(report, model, PROJECT_DIR, args["scale"], args["augment"])
     report_summary = summeries_multiclass_report(report)
     
     return report_summary

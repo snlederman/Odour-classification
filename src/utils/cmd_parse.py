@@ -27,4 +27,4 @@ def args_to_path(args):
         else:
             path_dict[key] = ""
     return os.path.join(path_dict["augmented"], path_dict["scaled"], path_dict["clipped"],  path_dict["derived"])
-    
+# args = {"augmented":False, "scaled":False, "clipped":False,  "derived":False}

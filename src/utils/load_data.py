@@ -11,8 +11,8 @@ def load_data(project_dir, args):
     
     data_path = args_to_path(args)
     
-    labels_train_path = os.path.join(project_dir, "data", "cleaned", "splitted", "train", "labels.csv")
-    labels_test_path = os.path.join(project_dir, "data", "cleaned", "splitted", "test", "labels.csv")
+    labels_train_path = os.path.join(project_dir, "data", "cleaned", "splitted", "train", data_path, "labels.csv")
+    labels_test_path = os.path.join(project_dir, "data", "cleaned", "splitted", "test", data_path, "labels.csv")
     
     features_train_path = os.path.join(project_dir, "data", "cleaned", "splitted", "train", data_path, "features.csv")
     features_test_path = os.path.join(project_dir, "data", "cleaned", "splitted", "test", data_path, "features.csv")
