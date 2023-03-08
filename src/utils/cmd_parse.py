@@ -16,6 +16,7 @@ def get_args(argv=None):
     parser.add_argument("-c","--clipped", action="store_true", help="clipped data")
     parser.add_argument("-d","--derived", action="store_true", help="derived data")
     parser.add_argument("-n","--number", type=int, help="repeats the action n times")
+    parser.add_argument("-f","--fourier", action="store_true", help="fourier transform data")
     return vars(parser.parse_args(argv))
 
 def args_to_path(args):
