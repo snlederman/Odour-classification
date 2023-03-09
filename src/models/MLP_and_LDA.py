@@ -33,6 +33,18 @@ def main():
     X_train, y_train, X_test, y_test = load_data(PROJECT_DIR, args)
     
     
+    # not use the Ethyl labels
+    
+    # X_train_small = X_train[y_train['label'] != '3-Ethyl']
+    # X_test_small = X_test[y_test['label'] != '3-Ethyl']
+    # y_test_small = y_test[y_test['label'] != '3-Ethyl']
+    # y_train_small = y_train[y_train['label'] != '3-Ethyl']
+
+    # X_train = X_train_small
+    # X_test = X_test_small
+    # y_train = y_train_small
+    # y_test  = y_test_small
+    
     clf = LinearDiscriminantAnalysis(solver='eigen', shrinkage='auto')
     clf.fit(X_train, np.ravel(y_train))
     X_train_lda = clf.transform(X_train)
