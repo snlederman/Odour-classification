@@ -18,11 +18,7 @@ def log_metrics(report, args, project_dir):
     report_df = pd.DataFrame(report)
     report_df["log_id"] = max(metrics_log["log_id"]) + 1
     for key, value in args.items():
-<<<<<<< HEAD
         report_df[key] = value
-=======
-        report[key] = value
->>>>>>> 727a9d9e0952ec00afa0a0373e6e0b9c9884c47d
         
     report_df.reset_index(inplace=True)
     report_df.rename(columns={"index" : "metric"}, inplace=True)
