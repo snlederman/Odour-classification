@@ -38,4 +38,4 @@ from ada_boost import ada_boost
 from dense_neuralnet import dense_neuralnet
 from MLP import MLP
 from RNN import RNN
-# from KNN import KNN
+from KNN import KNN
