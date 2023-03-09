@@ -23,9 +23,9 @@ def run_tests(models, preps):
     for model in models:
         for combo in combinations:
             if combo:
-                command = f"""python {os.path.join(PROJECT_DIR, "main.py")} --model {model} --{" --".join(combo)}"""
+                command = f"""python {os.path.join(PROJECT_DIR, "main.py")} --model {model} --{" --".join(combo)} -W ignore"""
             else:
-                command = f"""python {os.path.join(PROJECT_DIR, "main.py")} --model {model}"""
+                command = f"""python {os.path.join(PROJECT_DIR, "main.py")} --model {model} -W ignore"""
             print(command)
             os.system(command)
 
