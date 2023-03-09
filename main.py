@@ -15,6 +15,8 @@ PROJECT_DIR = SCRIPT_PATH[:-len(SCRIPT_NAME)]
 sys.path.append(os.path.join(PROJECT_DIR, "src", "utils"))
 from cmd_parse import get_args
 from load_data import load_data
+from log_classification import log_metrics
+from summeries_classification import summeries_multiclass_report
 
 sys.path.append(os.path.join(PROJECT_DIR, "src", "prep"))
 from scale import scale
@@ -24,22 +26,23 @@ from reduce import reduce
 from split import split
 
 sys.path.append(os.path.join(PROJECT_DIR, "src", "models"))
-from most_common import most_common
-from random_sampler import random_sampler
+# from most_common import most_common
+# from random_sampler import random_sampler
 from logistic_regression import logistic_regression
 from random_forest import random_forest
 from gradient_boosting import gradient_boosting
 from ada_boost import ada_boost
-from dense_neuralnet import dense_neuralnet
-from MLP import MLP
-from RNN import RNN
-from KNN import KNN
+# from dense_neuralnet import dense_neuralnet
+# from MLP import MLP
+# from RNN import RNN
+# from KNN import KNN
 
 
 def main():
     """program skeleton"""
 
     args = get_args()
+    # args = {"clip":True, "derive":True, "scale":True, "reduce":True, "model":random_forest}
 
     # load cleaned data
     labels, features = load_data(PROJECT_DIR)
@@ -48,7 +51,7 @@ def main():
     pre_preps = ["scale", "clip", "derive"]
     for key, value in args.items():
         if key in pre_preps and value:
-            features = eval(f"{key}({features})")
+            features = eval(f"{key}(features)")
 
     # split train test
     x_train, y_train, x_test, y_test = split(labels, features)
@@ -57,13 +60,17 @@ def main():
     post_preps = ["reduce"]
     for key, value in args.items():
         if key in post_preps and value:
-            x_train = eval(f"{key}({y_train}, {x_train})")
-            x_test = eval(f"{key}({y_test}, {x_test})")
+            x_train = eval(f"{key}(y_train, x_train)")
+            x_test = eval(f"{key}(y_test, x_test)")
 
     # modeling
-    results = eval(f"{args['model']}({x_train}, {y_train}, {x_test}, {y_test})")
+    model = args['model']
+    report = eval(f"{model}(x_train, y_train, x_test, y_test)")
 
     # saving metrics
+    log_metrics(report, args, PROJECT_DIR)
+    report_summary = summeries_multiclass_report(report)
+    return report_summary
 
 if __name__ == "__main__":
-    main()
+    print(main())
