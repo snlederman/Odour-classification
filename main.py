@@ -12,19 +12,20 @@ SCRIPT_PATH = os.path.realpath(__file__)
 SCRIPT_NAME = "main.py"
 PROJECT_DIR = SCRIPT_PATH[:-len(SCRIPT_NAME)]
 
-from src.imports import *
+sys.path.append(os.path.join(PROJECT_DIR, "src"))
+from imports import *
 
 def main():
     """program skeleton"""
 
     args = get_args()
-    # args = {"clip":True, "derive":True, "scale":True, "reduce":True, "model":random_forest}
+    # args = {"clip":True, "derive":True, "scale":True, "reduce":True, "fourier":True, "model":random_forest}
 
     # load cleaned data
     labels, features = load_data(PROJECT_DIR)
 
     # pre-split preps
-    pre_preps = ["scale", "clip", "derive"]
+    pre_preps = ["scale", "clip", "derive", "fourier"]
     for key, value in args.items():
         if key in pre_preps and value:
             features = eval(f"{key}(features)")
