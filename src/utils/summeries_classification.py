@@ -14,7 +14,7 @@ def summeries_multiclass_report(report):
     """
     accuracy = report["accuracy"]
     report_df = pd.DataFrame(report)
-    report_summary = report_df.transpose()[["precision","recall","f1-score"]].mean(axis=0)
+    report_summary = report_df.iloc[:,:8].transpose()[["precision","recall","f1-score"]].mean(axis=0)
 
     report_print = f"""Report:
     Accuracy: {accuracy:.0%}

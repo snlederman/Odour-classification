@@ -3,7 +3,7 @@ dimentionality reduction
 """
 
 # packages
-import numpy as np
+import pandas as pd
 from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
 
 
@@ -14,7 +14,10 @@ def reduce(labels, features):
     """
 
     lda = LinearDiscriminantAnalysis(solver='eigen', shrinkage='auto')
-    lda.fit(features, np.ravel(labels))
-    features_lda = lda.transform(features)
+    lda.fit(features, labels["label"])
+    features_lda = pd.DataFrame(
+        lda.transform(features),
+        index=features.index
+    )
 
     return features_lda
