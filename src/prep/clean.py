@@ -14,9 +14,12 @@ def get_project_dir(script_path):
 
 PROJECT_DIR = get_project_dir(SCRIPT_PATH)
 
-def main():
-    """program skeleton"""
-    
+def clean():
+    """
+    cleans the raw data
+    and split it to features and labels
+    """
+
     # loading raw data
     data_file = os.path.join(PROJECT_DIR,"data", "raw", "single_odor.csv")
     data = pd.read_csv(data_file)
@@ -30,10 +33,10 @@ def main():
 
     # saving labels
     labels.to_csv(os.path.join(PROJECT_DIR,"data", "cleaned", "labels.csv"), index=False)
-    
+
     # saving features
     features.to_csv(os.path.join(PROJECT_DIR,"data", "cleaned", "features.csv"), index=False)
 
 
 if __name__ == "__main__":
-    main()
+    clean()
