@@ -27,10 +27,19 @@ def main():
     metrics_short.drop(columns=to_drop, inplace=True)
     metrics_short.sort_values("accuracy", ascending=False, inplace=True)
     metrics_short = metrics_short.iloc[0::4,:]
+    metrics_short.to_csv(os.path.join(PROJECT_DIR, "data", "stats", "accuracy_log.csv"), index=False)
 
     metrics.sort_values("accuracy", ascending=False, inplace=True)
-    metrics.loc[metrics["metric"] == "f1-score",labels].iloc[0]
+    best_f1 = (
+        metrics
+        .loc[metrics["metric"] == "f1-score",labels]
+        .iloc[0]
+        .reset_index()
+    )
+    best_f1.rename(columns={"index":"label",best_f1.columns[1]:"F1-score"}, inplace=True)
+    best_f1.to_csv(os.path.join(PROJECT_DIR, "data", "stats", "best_f1_log.csv"), index=False)
+    
 
 
 if __name__ == "__main__":
-    print(main())
+    main()
