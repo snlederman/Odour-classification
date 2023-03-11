@@ -23,19 +23,23 @@ def run_tests(models, preps):
     for model in models:
         for combo in combinations:
             if combo:
-                command = f"""python {os.path.join(PROJECT_DIR, "main.py")} --model {model} --{" --".join(combo)} -W ignore"""
+                command = f"""python -W ignore {os.path.join(PROJECT_DIR, "main.py")} --model {model} --{" --".join(combo)}"""
             else:
-                command = f"""python {os.path.join(PROJECT_DIR, "main.py")} --model {model} -W ignore"""
+                command = f"""python -W ignore {os.path.join(PROJECT_DIR, "main.py")} --model {model}"""
             print(command)
             os.system(command)
 
 if __name__ == "__main__":
     preps = ["scale", "clip", "derive", "reduce"]
 
+    # models = [
+    #     "random_sampler", "logistic_regression", "random_forest",
+    #     "gradient_boosting", "ada_boost", "dense_neuralnet",
+    #     "MLP", "RNN", "KNN"
+    # ]
+
     models = [
-        "random_sampler", "logistic_regression", "random_forest",
-        "gradient_boosting", "ada_boost", "dense_neuralnet",
-        "MLP", "RNN", "KNN"
+        "logistic_regression", "random_forest", "gradient_boosting", "MLP"
     ]
 
     run_tests(models, preps)
