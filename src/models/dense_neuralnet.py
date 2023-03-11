@@ -1,42 +1,19 @@
 """
-random forest model
+running dense neural network model
 """
 
 # packages
-import os
-import sys
-# import numpy as np
-import pandas as pd
 from sklearn.preprocessing import OneHotEncoder
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense
 from tensorflow.keras.callbacks import EarlyStopping
 from sklearn.metrics import classification_report
 
-SCRIPT_PATH = os.path.realpath(__file__)
-
-def get_project_dir(script_path):
-    project_dir = script_path[:-script_path[::-1].find("crs")-3]
-    return project_dir
-
-PROJECT_DIR = get_project_dir(SCRIPT_PATH)
-
-sys.path.append(os.path.join(PROJECT_DIR, "src", "utils"))
-from cmd_parse import get_args
-from load_data import load_data
-from summeries_classification import summeries_multiclass_report
-from log_classification import log_metrics
-from training_history import plot_history
-
 def get_prediction(y, labels):
     return labels[y.argmax(axis=1)]
     
-def main():
-    """program skeleton"""
-    args = get_args()
-    
-    X_train, y_train, X_test, y_test = load_data(PROJECT_DIR, args["scale"], args["augment"])
-    
+def dense_neuralnet(x_train, y_train, x_test, y_test):
+    """running dense neural network model"""
     enc = OneHotEncoder()
     
     unique_labels = y_train["label"].unique()
@@ -46,7 +23,7 @@ def main():
     y_train_encoded = enc.transform(y_train["label"].values.reshape(-1, 1)).toarray().astype(float)
     y_test_encoded = enc.transform(y_test["label"].values.reshape(-1, 1)).toarray().astype(float)
 
-    in_shape = X_train.shape[1]
+    in_shape = x_train.shape[1]
     print(f"input shape: {in_shape}")
     hidden1 = int(in_shape / 2)
     print(f"first hidden: {hidden1}")
@@ -69,20 +46,14 @@ def main():
 
     callback = EarlyStopping(monitor='val_loss', patience=5, restore_best_weights=True)
     
-    history = model.fit(X_train.values, y_train_encoded, validation_data=(X_test.values, y_test_encoded), batch_size=10, epochs=50, callbacks=[callback])
+    history = model.fit(x_train.values, y_train_encoded, validation_data=(x_test.values, y_test_encoded), batch_size=10, epochs=50, callbacks=[callback])
 
-    plot_history(history, "loss", os.path.join(PROJECT_DIR, "docs", "figures", "training_history.png"))
+    # plot_history(history, "loss", os.path.join(PROJECT_DIR, "docs", "figures", "training_history.png"))
     
-    y_pred_encoded = model.predict(X_test)
+    y_pred_encoded = model.predict(x_test)
     y_pred = get_prediction(y_pred_encoded, enc.categories_[0])
     y_true = get_prediction(y_test_encoded, enc.categories_[0])
     
     report = classification_report(y_true, y_pred, output_dict=True)
-    log_metrics(report, model, PROJECT_DIR, args["scale"], args["augment"])
-    report_summary = summeries_multiclass_report(report)
     
-    return report_summary
-
-
-if __name__ == "__main__":
-    print(main())
+    return report

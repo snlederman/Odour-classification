@@ -1,0 +1,8 @@
+copulas==0.8.0
+matplotlib==3.6.3
+numpy==1.23.5
+pandas==1.5.3
+scikit_learn==1.2.2
+scipy==1.10.1
+tensorflow==2.11.0
+umap==0.1.1
