@@ -20,10 +20,13 @@ def main():
     """program skeleton"""
     metrics = pd.read_csv(os.path.join(PROJECT_DIR, "data", "stats", "metrics_log.csv"))
     metrics.dropna(inplace=True)
+    metrics_short = metrics.copy()
     labels = ["1-Benz", "2-Hex", "3-Ethyl", "4-Rose", "5-Lem", "6-Ger", "7-Cit", "8-Van"]
-    metrics.drop(columns=labels, inplace=True)
+    metrics_short.drop(columns=labels, inplace=True)
     to_drop = ["log_id", "fourier", "metric", "macro avg", "weighted avg"]
-    metrics.drop(columns=to_drop, inplace=True)
+    metrics_short.drop(columns=to_drop, inplace=True)
+    metrics_short.sort_values("accuracy", ascending=False, inplace=True)
+    metrics_short = metrics_short.iloc[0::4,:]
 
     metrics.sort_values("accuracy", ascending=False, inplace=True)
     metrics.loc[metrics["metric"] == "f1-score",labels].iloc[0]
