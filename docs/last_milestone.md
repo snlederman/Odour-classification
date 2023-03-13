@@ -1,13 +1,14 @@
+---
+geometry: "left=2cm, right=2cm, top=3cm, bottom=3cm"
+# pandoc -f markdown+hard_line_breaks --output last_milestone.pdf last_milestone.md
+---
+
 # Final Project: Last Milestone
-<!-- Format: (Submit in PDF/Word/Google Docs format, and include your team number or name in the filename) -->
 
 **TEAM 3**
 
-## List of team members & tasks
-<!-- Please list the names of your team members and what each member did, on a high level (up to 2 sentences each) -->
-
 Ella Jewison:
-Model testing, medium article writing, testing advance dimensionality reduction techniques and feature extraction...
+Model testing, medium article writing, testing advance dimensionality reduction techniques and feature extraction.
 
 Ben Sivan:
 Model testing, structuring the project for robust model testing and automatic metric logging.
@@ -18,44 +19,80 @@ Researching advance data augmentation techniques.
 Ethan Ben-Attar:
 
 
-## First section: Project name, description & one-paragraph description of
-<!-- achievements. Describe very briefly what the current state of your project is,
-including one or two metrics that show your performance on the dataset.
-Also give a few sentences summarizing the business use of your project. -->
+**Part 1:**
 
-Odor classification:
+Project name : odor classification 
+
+Summary:
 Classification of odor's signals that where recorded using the desert locust antenna.
 Labels - 8 different odors
 Features - 150 time points of electical potential measured from the antenna's neurons submitted to various odors.
 
-The dataset is mostly balanced, so our metric of choice for high level evaluation of the model was accuracy. Since we have 8 labels, base model of random sampler would have accuracy of about 20%. In the original paper published, the researcher used random forest model and achived accuracy of 69.3%. After testing multiple strategies for preprocessing and multiple models we also found the random forest gives the best results, but we were able to increase the accuracy to 80%.
+The dataset is mostly balanced, so our metric of choice for high level evaluation of the model was accuracy. Since we have 8 labels, base model of random sampler would have accuracy of about 12%. In the original paper published, the researcher used random forest model and achived accuracy of 69.3%. 
 
-## Second section - main part: Technical description of your project. Describe
-<!-- the dataset(s) you used, steps you took to analyze and preprocess the data,
-and different models you tried. It should include a comparison of your
-baseline model with other models that you have tried. Remember to include
-a table of results with the format described in MS2. -->
+Our achievements :
+We have implemented a script that manages to test various preprocessing steps and different model to classify the odors. After testing multiple strategies for preprocessing and multiple models we also found the random forest gives the best results, but we were able to increase the accuracy to 80%.
 
-<!-- - This part should be accompanied by a medium article draft (ready for
-review), describing all of the above. Iclude visualizations and make the
-story appealing - this will be published and you could use it for your
-brand. -->
 
-<!-- - Also, prepare a draft for a poster to show in graduation. It should have
-visualizations, and a summary of your work. -->
+**Part 2:**
 
-## Third section: Describe the 3 largest challenges that the team had to
-<!-- overcome to build this (especially unexpected challenges). -->
-Data augmentation:
-Dimensionality reduction:
-Feature extraction
+The pipeline that we use to analyse and preprocess the data can be seen on our git repository : 
+https://github.com/EllaJewison/Final_project
 
-## Fourth section: What are the remaining steps to complete your project? This
-<!-- might include more data modeling, deployment, and preparing the
-presentation and write-up. Include how you will divide the work among the
-team, with names and who plans to do what.
-Lastly, share your git repository. It is recommended to use the DS coockiecutter if
-you haven’t yet, create a super organized repository, including a README.md file
-which will function as the “cover” for your project. -->
 
-Repository: https://github.com/EllaJewison/Final_project.git
+the different option that you can use to preprocess the signal are :
+- scale
+- derivative 
+- umap
+- clipped
+- reduce
+
+The different model option that you can use are: 
+- random forest
+- MLP
+- RNN
+- dense neural net
+- adaboost
+- KNN
+- logistic regression
+
+The configuration that yield the best accuracy score is : clipped, scale, derivative and random forest. The best accuracy is 80 %. This is significantly better than the baseline model that is 12 % (choosing randomly across 8 odors)
+
+Across the 8 odors we obtain the following F1-score :
+
+| label | F1-score |
+|-------|----------|
+| Benz  |    0.857 |
+|       |          |
+| Hex   |    0.898 |
+|       |          |
+| Ethyl |    0.909 |
+|       |          |
+| Rose  |    0.734 |
+|       |          |
+| Lem   |    0.705 |
+|       |          |
+| Ger   |    0.721 |
+|       |          |
+| Cit   |    0.627 |
+|       |          |
+| Van   |    0.930 |
+
+
+
+We can see that some odors are more easily identified than other. The most difficult to predict is beta citronellol and the easiest is Vanilla.
+
+The medium article can be found here: https://medium.com/p/d24525f0f9d8/edit
+
+
+**Part 3:** challenges
+
+1) Data augmentation was a challenge since it only yield worse performance on the models.
+2) Working together was a challenge as we had difficult time to decide what to do
+3) The main difficulty that we encountered was that everything that we tried made our model worse 
+
+
+**Part 4:**
+
+The next steps would be to try on the mixed odors or find a better preprocessing method.
+And spend a bit a time on hyperparameter tunning.
