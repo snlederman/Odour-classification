@@ -24,16 +24,17 @@ def main():
     # load cleaned data
     labels, features = load_data(PROJECT_DIR)
 
-    # pre-split preps
-    pre_preps = ["scale", "clip", "derive", "fourier"]
-    for key, value in args.items():
-        if key in pre_preps and value:
-            features = eval(f"{key}(features)")
-
     # split train test
     x_train, y_train, x_test, y_test = split(labels, features)
 
-    # post-split preps
+    # unsupervised preps
+    pre_preps = ["scale", "clip", "derive", "fourier"]
+    for key, value in args.items():
+        if key in pre_preps and value:
+            x_train = eval(f"{key}(x_train)")
+            x_test = eval(f"{key}(x_test)")
+
+    # supervised preps
     post_preps = ["reduce"]
     for key, value in args.items():
         if key in post_preps and value:
