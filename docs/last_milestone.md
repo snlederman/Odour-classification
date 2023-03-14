@@ -24,7 +24,7 @@ Ethan Ben-Attar:
 Project name : odor classification 
 
 Summary:
-Classification of odor's signals that where recorded using the desert locust antenna.
+Classification of odor's signals that were recorded using the desert locust antenna.
 Labels - 8 different odors
 Features - 150 time points of electical potential measured from the antenna's neurons submitted to various odors.
 
