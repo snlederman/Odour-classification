@@ -19,7 +19,7 @@ def main():
     """program skeleton"""
 
     args = get_args()
-    # args = {"clip":True, "derive":True, "scale":True, "reduce":True, "fourier":True, "model":random_forest}
+    # args = {"clip":False, "derive":True, "scale":False, "reduce":False, "fourier":False, "model":random_forest}
 
     # load cleaned data
     labels, features = load_data(PROJECT_DIR)
@@ -42,12 +42,17 @@ def main():
             x_test = eval(f"{key}(y_test, x_test)")
 
     # modeling
-    model = args['model']
-    report = eval(f"{model}(x_train, y_train, x_test, y_test)")
+    model_function = args['model']
+    model_trained ,report = eval(f"{model_function}(x_train, y_train, x_test, y_test)")
 
     # saving metrics
-    log_metrics(report, args, PROJECT_DIR)
+    max_accuracy = log_metrics(report, args, PROJECT_DIR)
     report_summary = summeries_multiclass_report(report)
+    
+    if report["accuracy"] > max_accuracy:
+        model_file = os.path.join(PROJECT_DIR, "src", "best_model.pkl")
+        pickle_model(model_trained, model_file)
+    
     return report_summary
 
 if __name__ == "__main__":

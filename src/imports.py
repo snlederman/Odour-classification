@@ -19,6 +19,7 @@ from cmd_parse import get_args
 from load_data import load_data
 from log_classification import log_metrics
 from summeries_classification import summeries_multiclass_report
+from pickle_model import pickle_model
 
 sys.path.append(os.path.join(PROJECT_DIR, "src", "prep"))
 from scale import scale
