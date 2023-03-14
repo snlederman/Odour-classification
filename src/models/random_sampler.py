@@ -32,4 +32,4 @@ def random_sampler(x_train, y_train, x_test, y_test):
     y_pred = model.predict(x_test)
 
     report = classification_report(y_test, y_pred, output_dict=True)
-    return report
+    return model, report
